@@ -1,0 +1,13 @@
+{
+  "author": "Noah Sanders",
+  "name": "listening-room-server",
+  "description": "Server implementation for listening room",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "querystring": "^0.2.0",
+    "request": "^2.83.0"
+  }
+}
