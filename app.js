@@ -159,6 +159,21 @@ app.put('/pause', function(req, res) {
     });
 });
 
+app.get('/search', function(req, res) {
+    let spotify = getSpotifyWrapper(req.headers.access_token);
+    let result = spotify.search(req.query.query, req.query.queryType);
+    console.log(req.query.query);
+    result.then(function(result) {
+        console.log(result);
+        res.statusCode = 200;
+        res.send();
+    }, function(err) {
+        res.statusCode = 500;
+        res.statusMessage = err.message;
+        res.send();
+    });
+});
+
 console.log('Listening on 8888');
 app.listen(8888);
 

@@ -10,7 +10,7 @@ class SpotifyWrapper {
     }
 
     //TODO - device not used yet
-    play(itemID,offset,device) {
+    play(itemID, offset, device) {
         let access_token = this.access_token;
         let baseUrl = this.baseUrl;
         let request = this.request;
@@ -75,8 +75,7 @@ class SpotifyWrapper {
             
                 request.put(options, function(error, response, body) {
                     if (error) {
-                        console.log('Error pausing song');
-                        console.log(error);
+                        console.log('Error pausing song: ' + error.toString());
                         reject(Error(error));
                     }
                     else {
@@ -85,7 +84,51 @@ class SpotifyWrapper {
                 });
             }
             catch (exception) {
-                console.log('Exception occurred in play(): ' + exception.toString());
+                console.log('Exception occurred in pause(): ' + exception.toString());
+            }
+        });
+    }
+
+    /*
+        @param queryString (string) query to search for
+        @param queryType (string) comma-delimited string of query types (options: album, artist, playlist, track)
+    */
+    search(queryString, queryType) {
+        let access_token = this.access_token;
+        let baseUrl = this.baseUrl;
+        let request = this.request;
+        console.log(queryString);
+
+        return new Promise(function(resolve, reject) {
+            try {
+                queryString = queryString.replace(/\s/g, '%20')
+                var options = {
+                    url: baseUrl + '/search',
+                    headers: { 'Authorization': 'Bearer ' + access_token },
+                    qs: {
+                        q: queryString
+                    }
+                };
+
+                if (queryType) {
+                    options.qs.type = queryType;
+                }
+                else {
+                    options.qs.type = 'album,artist,playlist,track';
+                }
+            
+                request.get(options, function(error, response, body) {
+                    if (error) {
+                        console.log('Error searching: ' + error.toString());
+                        reject(Error(error));
+                    }
+                    else {
+                        resolve(body);
+                    }
+                });
+            }
+            catch (exception) {
+                console.log('Exception occurred in search(): ' + exception.toString());
             }
         });
     }
